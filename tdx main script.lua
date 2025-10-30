@@ -1,2 +1,424 @@
+-- Configuration
+local TARGET_MAP = "Blade Works" 
+local SHORT_DELAY = 5
+local LONG_DELAY = 15
+local DIFFICULTY_VOTE = "Easy"
+local TELEPORT_GAME_ID = 9503261072 -- TDX Lobby ID
+local MATCH_DURATION_WAIT = 530 -- 9 minutes 30 seconds
+local SOLO_CHECK_TIME = 1 -- Time to wait before checking player count
 
-local v0="Blade Works";local v1=3 -1 ;local v2=3 + 12 ;local v3="Easy";local v4=9945642394 -442381322 ;local v5=506 + 4 ;local v6=792 -(368 + 423) ;local v7=workspace:FindFirstChild("APCs");function getCash() local v9=0 -0 ;local v10;local v11;while true do if (v9==(0 -0)) then v10=game:GetService("Players").LocalPlayer;v11=v10:FindFirstChild("leaderstats") and v10.leaderstats:FindFirstChild("Cash") ;v9=3 -2 ;end if (v9==(1797 -(503 + 1293))) then return (v11 and v11.Value) or (18 -(10 + 8)) ;end end end function waitForCash(v12) local v13=0 -0 ;local v14;while true do if (v13==(442 -(416 + 26))) then v14=getCash();while v14<v12  do local v56=0 -0 ;while true do if (v56==0) then task.wait(2 + 1 );v14=getCash();break;end end end break;end end end function getElevatorFolders() local v15=0 -0 ;local v16;local v17;local v18;while true do if (v15==1) then v18={};for v57=439 -(145 + 293) ,440 -(44 + 386)  do local v58=0;local v59;while true do if (v58==(1486 -(998 + 488))) then v59=v16:FindFirstChild(tostring(v57));if v59 then table.insert(v18,v59);end break;end end end v15=1 + 1 ;end if (v15==(0 + 0)) then v16=workspace:WaitForChild("APCs");v17=workspace:WaitForChild("APCs2");v15=773 -(201 + 571) ;end if (v15==(861 -(240 + 619))) then for v60=1149 -(116 + 1022) ,4 + 12  do local v61=0 -0 ;local v62;while true do if (v61==(0 + 0)) then v62=v17:FindFirstChild(tostring(v60));if v62 then table.insert(v18,v62);end break;end end end return v18;end end end function safeFire(v19,v20) local v21=0 + 0 ;local v22;local v23;local v24;while true do if (v21==(0 -0)) then v22=game:GetService("ReplicatedStorage");v23=v22:WaitForChild("Remotes");v21=1 + 0 ;end if (v21==(1 + 0)) then v24=v23:WaitForChild(v19);pcall(function() if v20 then v24:FireServer(unpack(v20));else v24:FireServer();end end);v21=7 -5 ;end if (v21==(861 -(814 + 45))) then task.wait(0.5 -0 );break;end end end function safeInvoke(v25,v26) local v27=game:GetService("ReplicatedStorage");local v28=v27:WaitForChild("Remotes");local v29=v28:WaitForChild(v25);local v30,v31=pcall(function() return v29:InvokeServer(unpack(v26));end);task.wait(0.5 + 0 );return v30,v31;end function generatePlaceToken() return os.clock() + (math.random() * (406.001 -(183 + 223))) ;end local v8={{type="place",cost=115 + 210 ,tower="Shotgunner",position=vector.create(889.9396977424622 -(261 + 624) ,104.6117935180664 -45 , -(1296.553970336914 -(1020 + 60)))},{type="place",cost=1748 -(630 + 793) ,tower="Shotgunner",position=vector.create(37.79802322387695 -26 ,279.6104507446289 -220 , -(665.4644470214844 -(108 + 341)))},{type="upgrade",cost=344 -244 ,towerId=1749 -(760 + 987) ,path=1915 -(1789 + 124) },{type="upgrade",cost=129 + 246 ,towerId=3 -1 ,path=5 -3 },{type="upgrade",cost=65 + 135 ,towerId=1821 -(580 + 1239) ,path=2 -1 },{type="upgrade",cost=256 + 69 ,towerId=2,path=1 + 0 },{type="upgrade",cost=261 -161 ,towerId=1,path=8 -6 },{type="upgrade",cost=847 -472 ,towerId=1414 -(447 + 966) ,path=1792 -(1010 + 780) },{type="upgrade",cost=2017 -(1703 + 114) ,towerId=702 -(376 + 325) ,path=1 -0 },{type="upgrade",cost=93 + 232 ,towerId=2 -1 ,path=15 -(9 + 5) },{type="upgrade",cost=2326 -(85 + 291) ,towerId=1267 -(243 + 1022) ,path=3 -2 },{type="upgrade",cost=3580 -(1123 + 57) ,towerId=1576 -(1281 + 293) ,path=1 + 0 },{type="upgrade",cost=3880 -(1869 + 61) ,towerId=1 + 0 ,path=3 -2 },{type="upgrade",cost=3686 -1286 ,towerId=1 + 0 ,path=1 -0 },{type="place",cost=1799 -(1329 + 145) ,tower="Shotgunner",position=vector.create(975.9838829040527 -(140 + 831) ,40.611785888671875 + 19 , -219.7416534423828)},{type="upgrade",cost=918 -(15 + 703) ,towerId=2 + 1 ,path=1},{type="upgrade",cost=219 -119 ,towerId=1787 -(214 + 1570) ,path=1723 -(345 + 1376) },{type="upgrade",cost=1013 -(198 + 490) ,towerId=13 -10 ,path=2 -1 },{type="upgrade",cost=365 + 10 ,towerId=11 -8 ,path=3 -1 },{type="upgrade",cost=314 + 1636 ,towerId=9 -6 ,path=1},{type="upgrade",cost=2400,towerId=9 -6 ,path=375 -(123 + 251) },{type="place",cost=923 -(208 + 490) ,tower="Cryo Blaster",position=vector.create(2.586745262145996 + 2 ,59.61369323730469, -213.0032196044922)},{type="upgrade",cost=196 + 29 ,towerId=2 + 2 ,path=837 -(660 + 176) },{type="upgrade",cost=1919 -(1269 + 200) ,towerId=7 -3 ,path=1 + 1 },{type="upgrade",cost=602 -(14 + 188) ,towerId=679 -(534 + 141) ,path=1 -0 },{type="upgrade",cost=487 + 63 ,towerId=4 + 0 ,path=3 -1 },{type="upgrade",cost=3366 -2166 ,towerId=3 + 1 ,path=1 + 0 },{type="upgrade",cost=3146 -(115 + 281) ,towerId=9 -5 ,path=1 + 0 },{type="upgrade",cost=27501 -20001 ,towerId=871 -(550 + 317) ,path=1 -0 },{type="upgrade",cost=10000,towerId=2 -0 ,path=2 -1 },{type="upgrade",cost=48553 -38553 ,towerId=286 -(134 + 151) ,path=1666 -(970 + 695) },{type="upgrade",cost=23217 -13217 ,towerId=5 -2 ,path=1991 -(582 + 1408) },{type="place",cost=1601 -(316 + 960) ,tower="Shotgunner",position=vector.create(7.958147048950195 + 4 ,46.61408996582031 + 13 , -(203.5897216796875 + 16))},{type="upgrade",cost=751 -(83 + 468) ,towerId=5,path=1 -0 },{type="upgrade",cost=2149 -(1195 + 629) ,towerId=6 -1 ,path=242 -(187 + 54) },{type="upgrade",cost=880 -(162 + 618) ,towerId=4 + 1 ,path=2 + 0 },{type="upgrade",cost=799 -424 ,towerId=8 -3 ,path=1 + 1 },{type="upgrade",cost=1950,towerId=5,path=1637 -(1373 + 263) },{type="upgrade",cost=4311 -(340 + 1571) ,towerId=2 + 3 ,path=1 + 0 },{type="upgrade",cost=15562 -5562 ,towerId=8 -3 ,path=1385 -(746 + 638) },{type="place",cost=85 + 140 ,tower="Cryo Blaster",position=vector.create(16.646870613098145 -5 ,400.61048126220703 -(218 + 123) , -(1804.1102142333984 -(1535 + 46)))},{type="upgrade",cost=320 -(51 + 44) ,towerId=2 + 4 ,path=1 + 0 },{type="upgrade",cost=58 + 342 ,towerId=566 -(306 + 254) ,path=664 -(174 + 489) },{type="upgrade",cost=450,towerId=11 -5 ,path=2},{type="upgrade",cost=362 + 188 ,towerId=14 -8 ,path=2 + 0 },{type="upgrade",cost=2703 -(268 + 335) ,towerId=296 -(60 + 230) ,path=574 -(426 + 146) },{type="upgrade",cost=7131 -(282 + 1174) ,towerId=24 -18 ,path=2},{type="upgrade",cost=34936 -20936 ,towerId=17 -11 ,path=1 + 1 },{type="place",cost=1476 -(721 + 530) ,tower="Cryo Blaster",position=vector.create(1283.3361721038818 -(945 + 326) ,146.614013671875 -87 , -(202.0918731689453 + 24))},{type="upgrade",cost=925 -(271 + 429) ,towerId=7 + 0 ,path=1501 -(1408 + 92) },{type="upgrade",cost=1688 -(993 + 295) ,towerId=1 + 6 ,path=1172 -(418 + 753) },{type="upgrade",cost=47 + 403 ,towerId=7,path=1 + 1 },{type="upgrade",cost=139 + 411 ,towerId=536 -(406 + 123) ,path=1771 -(1749 + 20) },{type="upgrade",cost=3422 -(1249 + 73) ,towerId=3 + 4 ,path=1147 -(466 + 679) },{type="upgrade",cost=13650 -7975 ,towerId=19 -12 ,path=2},{type="upgrade",cost=14000,towerId=3 + 4 ,path=1 + 1 },{type="place",cost=664 -439 ,tower="Cryo Blaster",position=vector.create(37.266560554504395 -23 ,119.6136360168457 -60 , -(342.5721740722656 -(4 + 110)))},{type="upgrade",cost=225,towerId=34 -26 ,path=1428 -(41 + 1386) },{type="upgrade",cost=503 -(17 + 86) ,towerId=5 + 3 ,path=1 + 0 },{type="upgrade",cost=1045 -595 ,towerId=17 -9 ,path=5 -3 },{type="upgrade",cost=950 -400 ,towerId=26 -18 ,path=2 + 0 },{type="upgrade",cost=4254 -2154 ,towerId=8,path=67 -(30 + 35) },{type="upgrade",cost=4060 + 1615 ,towerId=6 + 2 ,path=2 -0 },{type="upgrade",cost=14000,towerId=30 -22 ,path=1214 -(323 + 889) },{type="place",cost=805 -(361 + 219) ,tower="Cryo Blaster",position=vector.create(5.0366668701171875,1939.61177444458 -(446 + 1434) , -223.255859375)},{type="upgrade",cost=671 -446 ,towerId=3 + 6 ,path=1848 -(559 + 1288) },{type="upgrade",cost=813 -(15 + 398) ,towerId=9,path=983 -(18 + 964) },{type="upgrade",cost=261 + 189 ,towerId=6 + 3 ,path=1 + 1 },{type="upgrade",cost=430 + 120 ,towerId=135 -(116 + 10) ,path=1 + 1 },{type="upgrade",cost=4501 -2401 ,towerId=9,path=1 + 1 },{type="upgrade",cost=2043 + 3632 ,towerId=6 + 3 ,path=4 -2 },{type="upgrade",cost=15551 -(1126 + 425) ,towerId=414 -(118 + 287) ,path=7 -5 },{type="place",cost=658 -433 ,tower="Cryo Blaster",position=vector.create(2.880904197692871 + 2 ,436.6118049621582 -(142 + 235) , -(1025.311996459961 -799))},{type="upgrade",cost=1202 -(553 + 424) ,towerId=7 + 3 ,path=1 -0 },{type="upgrade",cost=831 -431 ,towerId=10 + 0 ,path=1 + 0 },{type="upgrade",cost=271 + 179 ,towerId=5 + 5 ,path=2},{type="upgrade",cost=550,towerId=6 + 4 ,path=2 -0 },{type="upgrade",cost=2942 -(497 + 345) ,towerId=27 -17 ,path=4 -2 },{type="upgrade",cost=5675,towerId=48 -38 ,path=755 -(239 + 514) },{type="upgrade",cost=14000,towerId=1339 -(797 + 532) ,path=2 + 0 },{type="place",cost=528 -303 ,tower="Cryo Blaster",position=vector.create(1208.0131554603577 -(373 + 829) ,59.6115837097168, -(207.71517944335938 + 22))},{type="upgrade",cost=1355 -(369 + 761) ,towerId=11,path=1 + 0 },{type="upgrade",cost=726 -326 ,towerId=11,path=1 -0 },{type="upgrade",cost=688 -(64 + 174) ,towerId=1413 -(832 + 570) ,path=1 + 1 },{type="upgrade",cost=519 + 31 ,towerId=3 + 8 ,path=338 -(144 + 192) },{type="upgrade",cost=2100,towerId=9 + 2 ,path=5 -3 },{type="upgrade",cost=4702 + 973 ,towerId=7 + 4 ,path=1 + 1 },{type="upgrade",cost=15580 -(1183 + 397) ,towerId=11,path=5 -3 },{type="place",cost=165 + 60 ,tower="Cryo Blaster",position=vector.create(607.013970375061 -(316 + 289) ,45.61236572265625 + 14 , -(2199.5860443115234 -(1913 + 62)))},{type="upgrade",cost=595 -370 ,towerId=1945 -(565 + 1368) ,path=3 -2 },{type="upgrade",cost=374 + 26 ,towerId=266 -(79 + 175) ,path=1662 -(1477 + 184) },{type="upgrade",cost=420 + 30 ,towerId=12,path=2 -0 },{type="upgrade",cost=1406 -(564 + 292) ,towerId=12,path=2 -0 },{type="upgrade",cost=4044 -1944 ,towerId=35 -23 ,path=306 -(244 + 60) },{type="upgrade",cost=6151 -(41 + 435) ,towerId=1013 -(938 + 63) ,path=2},{type="upgrade",cost=14000,towerId=1137 -(936 + 189) ,path=2 + 0 },{type="place",cost=881 -656 ,tower="Cryo Blaster",position=vector.create(1615.8336086273193 -(1565 + 48) ,134.6122055053711 -75 , -(142.4172821044922 + 87))},{type="upgrade",cost=1363 -(782 + 356) ,towerId=280 -(176 + 91) ,path=2 -1 },{type="upgrade",cost=400,towerId=1105 -(975 + 117) ,path=2 -1 },{type="upgrade",cost=1585 -(832 + 303) ,towerId=1888 -(157 + 1718) ,path=2 + 0 },{type="upgrade",cost=1952 -1402 ,towerId=44 -31 ,path=1020 -(697 + 321) },{type="upgrade",cost=4449 -2349 ,towerId=1 + 12 ,path=4 -2 },{type="upgrade",cost=2209 + 3466 ,towerId=23 -10 ,path=5 -3 },{type="upgrade",cost=14611 -(602 + 9) ,towerId=1202 -(449 + 740) ,path=3 -1 },{type="place",cost=1172 -(245 + 702) ,tower="Cryo Blaster",position=vector.create(24.24501609802246 -16 ,59.611148834228516, -232.0863800048828)},{type="upgrade",cost=2123 -(260 + 1638) ,towerId=454 -(382 + 58) ,path=1 + 0 },{type="upgrade",cost=400,towerId=14,path=3 -2 },{type="upgrade",cost=374 + 76 ,towerId=28 -14 ,path=5 -3 },{type="upgrade",cost=1207 -657 ,towerId=33 -19 ,path=741 -(396 + 343) },{type="upgrade",cost=3790 -(1121 + 569) ,towerId=228 -(22 + 192) ,path=1391 -(135 + 1254) },{type="upgrade",cost=5675,towerId=1477 -(1404 + 59) ,path=2 + 0 },{type="upgrade",cost=15527 -(389 + 1138) ,towerId=588 -(102 + 472) ,path=5 -3 }};while true do local v32=workspace:FindFirstChild("APCs");local v33=0 -0 ;if v32 then local function v40() local v49=game:GetService("Players").LocalPlayer;local v50=getElevatorFolders();local v51=v1;while workspace:FindFirstChild("APCs") do local v63=false;for v64,v65 in ipairs(v50) do local v66=v65:FindFirstChild("mapdisplay");local v67=v65:FindFirstChild("APC") and v65.APC:FindFirstChild("Ramp") ;local v68=v65:FindFirstChild("APC") and v65.APC:FindFirstChild("Seats") ;if (v66 and v67 and v68) then local v70=v66.screen.displayscreen.map;local v71=v70 and (v70.ContentText or v70.Text) ;local v72=765 -(468 + 297) ;for v77,v78 in ipairs(v68:GetChildren()) do if (v78:IsA("Seat") and v78.Occupant) then v72=v72 + (563 -(334 + 228)) ;end end if (v71 and v71:lower():find(v0:lower()) and (v72==(0 -0))) then local v79=game:GetService("Players").LocalPlayer;local v80=v79.Character or v79.CharacterAdded:Wait() ;if (v80 and v80.HumanoidRootPart) then v80.HumanoidRootPart.CFrame=v67.CFrame;task.wait(0.5);local v85=v80.Humanoid;for v86,v87 in ipairs(v68:GetChildren()) do if (v87:IsA("Seat") and (v87.Occupant==v85)) then v63=true;break;end end if v63 then break;end end end end end if v63 then v51=v2;task.wait(v51);if workspace:FindFirstChild("APCs") then v51=v1;end else task.wait(v51);end end end v40();end task.wait(23 -13 );if  not workspace:FindFirstChild("Enemies") then local v41=0 -0 ;local v42;local v43;local v44;while true do if (v41==(1 + 0)) then task.wait(v6);v43=game:GetService("Players");v41=238 -(141 + 95) ;end if (v41==(4 + 0)) then v33=os.clock();break;end if ((4 -2)==v41) then if ( #v43:GetPlayers()>(2 -1)) then local v73=0 + 0 ;local v74;while true do if (v73==(0 -0)) then v74=game:GetService("TeleportService");pcall(function() v74:Teleport(v4);end);v73=1 -0 ;end if ((1 + 0)==v73) then task.wait(24 -14 );continue;break;end end end safeFire("DifficultyVoteReady");v41=2 + 1 ;end if (3==v41) then v44={true,true};safeFire("SoloToggleSpeedControl",v44);v41=3 + 1 ;end if (v41==0) then v42={v3};safeFire("DifficultyVoteCast",v42);v41=1 + 0 ;end end end task.wait(3 + 2 );for v36,v37 in ipairs(v8) do if (v37.type=="place") then local v52=304 -(300 + 4) ;local v53;local v54;local v55;while true do if (v52==(0 -0)) then waitForCash(v37.cost);v53={generatePlaceToken(),v37.tower,v37.position,0 + 0 };v52=2 -1 ;end if (v52==(850 -(254 + 595))) then v54,v55=safeInvoke("PlaceTower",v53);break;end end elseif (v37.type=="upgrade") then waitForCash(v37.cost);local v69={v37.towerId,v37.path,1};safeFire("TowerUpgradeRequest",v69);elseif (v37.type=="sell") then local v75=0 -0 ;local v76;while true do if (v75==(1790 -(573 + 1217))) then v76={v37.towerId};safeFire("SellTower",v76);break;end end elseif (v37.type=="ability") then local v81=0 + 0 ;local v82;while true do if (v81==(0 -0)) then v82={v37.towerId,1 -0 };safeInvoke("TowerUseAbilityRequest",v82);break;end end end end if (v33>(0 + 0)) then local v45=0 -0 ;local v46;local v47;while true do if (v45==(807 -(118 + 688))) then if (v47>(48 -(25 + 23))) then task.wait(v47);else task.wait(602 -(512 + 90) );end break;end if (v45==(0 + 0)) then v46=os.clock() -v33 ;v47=v5-v46 ;v45=1887 -(927 + 959) ;end end else task.wait(202 -142 );end local v34=game:GetService("TeleportService");local v35=735 -(16 + 716) ;for v38=2 -1 ,v35 do local v39=pcall(function() v34:Teleport(v4);end);if v39 then break;end task.wait(5);end task.wait(16 -6 );end
+local APCs = workspace:FindFirstChild("APCs") 
+
+-----------------------------------------------------------
+-- Utility Functions
+-----------------------------------------------------------
+
+function getCash()
+    local player = game:GetService("Players").LocalPlayer
+    local cashValue = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Cash")
+    return cashValue and cashValue.Value or 0
+end
+
+-- Increased wait time to 3 seconds for cash stability 
+function waitForCash(minAmount)
+    local cash = getCash()
+    while cash < minAmount do
+        task.wait(3) -- Wait 3 seconds to ensure cash has updated and stabilized
+        cash = getCash()
+    end
+end
+
+function getElevatorFolders()
+    local APCs = workspace:WaitForChild("APCs")
+    local APCs2 = workspace:WaitForChild("APCs2")
+    local elevatorFolders = {}
+    
+    for i = 1, 10 do
+        local folder = APCs:FindFirstChild(tostring(i))
+        if folder then table.insert(elevatorFolders, folder) end
+    end
+    for i = 11, 16 do
+        local folder = APCs2:FindFirstChild(tostring(i))
+        if folder then table.insert(elevatorFolders, folder) end
+    end
+    return elevatorFolders
+end
+
+function safeFire(remoteName, args)
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+    local remote = Remotes:WaitForChild(remoteName)
+    
+    pcall(function()
+        if args then
+            remote:FireServer(unpack(args))
+        else
+            remote:FireServer()
+        end
+    end)
+    task.wait(0.5)
+end
+
+function safeInvoke(remoteName, args)
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+    local remote = Remotes:WaitForChild(remoteName)
+    
+    local success, result = pcall(function()
+        return remote:InvokeServer(unpack(args))
+    end)
+    task.wait(0.5)
+    return success, result
+end
+
+function generatePlaceToken()
+    return os.clock() + (math.random() * 0.001)
+end
+
+-----------------------------------------------------------
+-- Tower Placement and Upgrade Sequence Data (STRICT BLOCKS)
+-----------------------------------------------------------
+
+local placementAndUpgradeSequence = {
+    -- 1. Initial Shotgunners (ID 1 & 2) - Upgraded to 4,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(4.939697742462158, 59.611793518066406, -216.55397033691406) }, -- ID 1
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(11.798023223876953, 59.610450744628906, -216.46444702148438) },  -- ID 2
+
+    -- ID 2: P2 L1, P2 L2, P1 L1, P1 L2
+    { type = "upgrade", cost = 100, towerId = 2, path = 2 }, 
+    { type = "upgrade", cost = 375, towerId = 2, path = 2 }, 
+    { type = "upgrade", cost = 200, towerId = 2, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 2, path = 1 }, 
+
+    -- ID 1: P2 L1, P2 L2, P1 L1, P1 L2
+    { type = "upgrade", cost = 100, towerId = 1, path = 2 }, 
+    { type = "upgrade", cost = 375, towerId = 1, path = 2 }, 
+    { type = "upgrade", cost = 200, towerId = 1, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 1, path = 1 }, 
+
+    -- ID 2: P1 L3, P1 L4
+    { type = "upgrade", cost = 1950, towerId = 2, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 2, path = 1 }, 
+
+    -- ID 1: P1 L3, P1 L4
+    { type = "upgrade", cost = 1950, towerId = 1, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 1, path = 1 }, 
+
+    -- 2. Shotgunner 3 (ID 3) - Upgraded to 4,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(4.983882904052734, 59.611785888671875, -219.7416534423828) }, -- ID 3
+    
+    -- ID 3: P1 L1, P2 L1, P1 L2, P2 L2, P1 L3, P1 L4
+    { type = "upgrade", cost = 200, towerId = 3, path = 1 }, 
+    { type = "upgrade", cost = 100, towerId = 3, path = 2 }, 
+    { type = "upgrade", cost = 325, towerId = 3, path = 1 }, 
+    { type = "upgrade", cost = 375, towerId = 3, path = 2 }, 
+    { type = "upgrade", cost = 1950, towerId = 3, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 3, path = 1 }, 
+    
+    -- 3. Cryo Blaster 4 (ID 4) - Upgraded to 5,2 
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(4.586745262145996, 59.61369323730469, -213.0032196044922) }, -- ID 4
+    
+    -- ID 4: P1 L1, P2 L1, P1 L2, P2 L2, P1 L3, P1 L4, P1 L5
+    { type = "upgrade", cost = 225, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 450, towerId = 4, path = 2 }, -- P2 L1
+    { type = "upgrade", cost = 400, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 550, towerId = 4, path = 2 }, -- P2 L2 (Stop here for 5,2)
+    { type = "upgrade", cost = 1200, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 2750, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 7500, towerId = 4, path = 1 }, -- P1 L5 (The 5 in 5,2)
+    
+    -- 4. Final SG Upgrades to 5,2
+    { type = "upgrade", cost = 10000, towerId = 2, path = 1 }, -- SG 2: P1 L5
+    { type = "upgrade", cost = 10000, towerId = 1, path = 1 }, -- SG 1: P1 L5
+    { type = "upgrade", cost = 10000, towerId = 3, path = 1 }, -- SG 3: P1 L5
+
+    -- 5. Shotgunner 5 (ID 5) - Upgraded to 5,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(11.958147048950195, 59.61408996582031, -219.5897216796875) }, -- ID 5
+    
+    -- ID 5: P1 L1, P1 L2, P2 L1, P2 L2, P1 L3, P1 L4, P1 L5
+    { type = "upgrade", cost = 200, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 100, towerId = 5, path = 2 }, 
+    { type = "upgrade", cost = 375, towerId = 5, path = 2 }, 
+    { type = "upgrade", cost = 1950, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 10000, towerId = 5, path = 1 }, 
+
+    -- 6. Cryo Blaster 6 (ID 6) - Upgraded to 2,5
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(11.646870613098145, 59.61048126220703, -223.11021423339844) }, -- ID 6
+    
+    -- ID 6: P1 L1, P1 L2, P2 L1, P2 L2, P2 L3, P2 L4, P2 L5
+    { type = "upgrade", cost = 225, towerId = 6, path = 1 }, -- P1 L1
+    { type = "upgrade", cost = 400, towerId = 6, path = 1 }, -- P1 L2 (Stops here for 2,5)
+    { type = "upgrade", cost = 450, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 6, path = 2 }, 
+
+    -- 7. Remaining Cryo Blasters (ID 7 - 14) - Upgraded to 2,5
+    -- CB 7
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(12.336172103881836, 59.614013671875, -226.0918731689453) }, -- ID 7
+    { type = "upgrade", cost = 225, towerId = 7, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 7, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 7, path = 2 }, 
+
+    -- CB 8
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(14.266560554504395, 59.6136360168457, -228.57217407226562) }, -- ID 8
+    { type = "upgrade", cost = 225, towerId = 8, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 8, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 8, path = 2 }, 
+    
+    -- CB 9
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(5.0366668701171875, 59.61177444458008, -223.255859375) }, -- ID 9
+    { type = "upgrade", cost = 225, towerId = 9, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 9, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 9, path = 2 }, 
+    
+    -- CB 10
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(4.880904197692871, 59.6118049621582, -226.31199645996094) }, -- ID 10
+    { type = "upgrade", cost = 225, towerId = 10, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 10, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 10, path = 2 }, 
+    
+    -- CB 11
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(6.013155460357666, 59.6115837097168, -229.71517944335938) }, -- ID 11
+    { type = "upgrade", cost = 225, towerId = 11, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 11, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 11, path = 2 }, 
+    
+    -- CB 12
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(2.013970375061035, 59.61236572265625, -224.58604431152344) }, -- ID 12
+    { type = "upgrade", cost = 225, towerId = 12, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 12, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 12, path = 2 }, 
+    
+    -- CB 13
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(2.833608627319336, 59.612205505371094, -229.4172821044922) }, -- ID 13
+    { type = "upgrade", cost = 225, towerId = 13, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 13, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 13, path = 2 }, 
+    
+    -- CB 14
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(8.245016098022461, 59.611148834228516, -232.0863800048828) }, -- ID 14
+    { type = "upgrade", cost = 225, towerId = 14, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 14, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 14, path = 2 }, 
+}
+
+-----------------------------------------------------------
+-- MAIN FARMING LOOP
+-----------------------------------------------------------
+
+while true do
+    local APCs = workspace:FindFirstChild("APCs") 
+    local timerStartTime = 0
+
+    if APCs then
+        local function findAndJoinMatch()
+            local player = game:GetService("Players").LocalPlayer
+            local elevatorFolders = getElevatorFolders()
+            local currentDelay = SHORT_DELAY
+
+            while workspace:FindFirstChild("APCs") do
+                local matchFoundAndSeated = false
+                
+                for _, elevator in ipairs(elevatorFolders) do
+                    local mapDisplay = elevator:FindFirstChild("mapdisplay")
+                    local rampPart = elevator:FindFirstChild("APC") and elevator.APC:FindFirstChild("Ramp")
+                    local seatFolder = elevator:FindFirstChild("APC") and elevator.APC:FindFirstChild("Seats")
+
+                    if mapDisplay and rampPart and seatFolder then
+                        local mapNamePath = mapDisplay.screen.displayscreen.map
+                        local currentMap = mapNamePath and (mapNamePath.ContentText or mapNamePath.Text)
+                        
+                        local occupantCount = 0
+                        for _, seat in ipairs(seatFolder:GetChildren()) do
+                            if seat:IsA("Seat") and seat.Occupant then
+                                occupantCount = occupantCount + 1
+                            end
+                        end
+
+                        if currentMap and currentMap:lower():find(TARGET_MAP:lower()) and occupantCount == 0 then
+                            
+                            local player = game:GetService("Players").LocalPlayer
+                            local character = player.Character or player.CharacterAdded:Wait()
+                            
+                            if character and character.HumanoidRootPart then
+                                character.HumanoidRootPart.CFrame = rampPart.CFrame
+                                task.wait(0.5)
+                                
+                                local humanoid = character.Humanoid
+                                for _, seat in ipairs(seatFolder:GetChildren()) do
+                                    if seat:IsA("Seat") and seat.Occupant == humanoid then
+                                        matchFoundAndSeated = true
+                                        break 
+                                    end
+                                end
+                                
+                                if matchFoundAndSeated then
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+                
+                if matchFoundAndSeated then
+                    currentDelay = LONG_DELAY
+                    task.wait(currentDelay)
+                    if workspace:FindFirstChild("APCs") then
+                        currentDelay = SHORT_DELAY
+                    end
+                else
+                    task.wait(currentDelay)
+                end
+            end
+        end
+
+        findAndJoinMatch()
+        
+    end
+
+    -----------------------------------------------------------
+    -- Match Start Sequence & Solo Check
+    -----------------------------------------------------------
+    task.wait(10)
+
+    if not workspace:FindFirstChild("Enemies") then 
+        local voteArgs = { DIFFICULTY_VOTE }
+        safeFire("DifficultyVoteCast", voteArgs)
+        
+        -- SOLO CHECK HERE
+        task.wait(SOLO_CHECK_TIME)
+        
+        local PlayersService = game:GetService("Players")
+        if #PlayersService:GetPlayers() > 1 then
+            local TeleportService = game:GetService("TeleportService")
+            pcall(function()
+                TeleportService:Teleport(TELEPORT_GAME_ID)
+            end)
+            task.wait(10)
+            continue
+        end
+
+        -- If Solo, continue setup:
+        safeFire("DifficultyVoteReady")
+        
+        local speedArgs = {
+            true,
+            true
+        }
+        safeFire("SoloToggleSpeedControl", speedArgs)
+        
+        timerStartTime = os.clock()
+    end
+    
+    task.wait(5)
+
+    -----------------------------------------------------------
+    -- In-Game Farming Loop
+    -----------------------------------------------------------
+
+    for i, action in ipairs(placementAndUpgradeSequence) do
+        if action.type == "place" then
+            waitForCash(action.cost)
+            
+            local placeArgs = {
+                generatePlaceToken(), 
+                action.tower, 
+                action.position, 
+                0
+            }
+            
+            local success, result = safeInvoke("PlaceTower", placeArgs)
+
+        elseif action.type == "upgrade" then
+            waitForCash(action.cost) 
+            
+            local upgradeArgs = {
+                action.towerId, 
+                action.path, 
+                1 
+            }
+            
+            safeFire("TowerUpgradeRequest", upgradeArgs)
+
+        elseif action.type == "sell" then
+            local sellArgs = {
+                action.towerId
+            }
+            safeFire("SellTower", sellArgs)
+
+        elseif action.type == "ability" then
+            local abilityArgs = {
+                action.towerId,
+                1 -- Assume ability slot 1
+            }
+            safeInvoke("TowerUseAbilityRequest", abilityArgs)
+        end
+    end
+    
+    -----------------------------------------------------------
+    -- Match Duration Wait & Restart Loop
+    -----------------------------------------------------------
+    
+    if timerStartTime > 0 then
+        local elapsedTime = os.clock() - timerStartTime
+        local remainingTime = MATCH_DURATION_WAIT - elapsedTime
+        
+        if remainingTime > 0 then
+            task.wait(remainingTime)
+        else
+            task.wait(0) 
+        end
+    else
+        task.wait(60) 
+    end
+
+    local TeleportService = game:GetService("TeleportService")
+    local maxRetries = 3
+    for attempt = 1, maxRetries do
+        local success = pcall(function()
+            TeleportService:Teleport(TELEPORT_GAME_ID)
+        end)
+        if success then
+            break
+        end
+        task.wait(5)
+    end
+    
+    task.wait(10)
+end
