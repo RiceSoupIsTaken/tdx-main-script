@@ -7,10 +7,10 @@ local TELEPORT_GAME_ID = 9503261072 -- TDX Lobby ID
 local MATCH_DURATION_WAIT = 570 -- 9 minutes 30 seconds
 local SOLO_CHECK_TIME = 10 -- Time to wait before checking player count
 
-local APCs = workspace:WaitForChild("APCs") -- FIX: Ensure APCs exists before continuing
+local APCs = workspace:FindFirstChild("APCs") 
 
 -----------------------------------------------------------
--- Utility Functions (Keeping the robust 3-second wait)
+-- Utility Functions
 -----------------------------------------------------------
 
 function getCash()
@@ -19,7 +19,7 @@ function getCash()
     return cashValue and cashValue.Value or 0
 end
 
--- Using 3 seconds wait time for cash stability 
+-- Increased wait time to 3 seconds for cash stability 
 function waitForCash(minAmount)
     local cash = getCash()
     while cash < minAmount do
@@ -76,7 +76,7 @@ function generatePlaceToken()
 end
 
 -----------------------------------------------------------
--- TOWER SEQUENCE (Shotgunner & Cryo Blaster)
+-- Tower Placement and Upgrade Sequence Data (STRICT BLOCKS)
 -----------------------------------------------------------
 
 local placementAndUpgradeSequence = {
@@ -115,8 +115,8 @@ local placementAndUpgradeSequence = {
     { type = "upgrade", cost = 1950, towerId = 3, path = 1 }, 
     { type = "upgrade", cost = 2400, towerId = 3, path = 1 }, 
     
-    -- 3. Cryo Blaster 4 (ID 4) - Upgraded to 5,2 (REVISED BLOCK)
-    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(11.958147048950195, 59.61408996582031, -219.5897216796875) }, -- ID 4
+    -- 3. Cryo Blaster 4 (ID 4) - Upgraded to 5,2 
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(4.586745262145996, 59.61369323730469, -213.0032196044922) }, -- ID 4
     
     -- ID 4: P1 L1, P2 L1, P1 L2, P2 L2, P1 L3, P1 L4, P1 L5
     { type = "upgrade", cost = 225, towerId = 4, path = 1 }, 
@@ -156,7 +156,7 @@ local placementAndUpgradeSequence = {
     { type = "upgrade", cost = 5675, towerId = 6, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 6, path = 2 }, 
 
-    -- 7. Remaining Cryo Blasters (ID 7 - 14) - Upgraded to 2,5 (The script places and upgrades each one fully before moving to the next ID)
+    -- 7. Remaining Cryo Blasters (ID 7 - 14) - Upgraded to 2,5
     -- CB 7
     { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(12.336172103881836, 59.614013671875, -226.0918731689453) }, -- ID 7
     { type = "upgrade", cost = 225, towerId = 7, path = 1 }, 
@@ -239,11 +239,11 @@ local placementAndUpgradeSequence = {
 }
 
 -----------------------------------------------------------
--- MAIN FARMING LOOP 
+-- MAIN FARMING LOOP
 -----------------------------------------------------------
 
 while true do
-    -- APCs is now guaranteed to exist due to WaitForChild at the top
+    local APCs = workspace:FindFirstChild("APCs") 
     local timerStartTime = 0
 
     if APCs then
@@ -366,9 +366,7 @@ while true do
             local success, result = safeInvoke("PlaceTower", placeArgs)
 
         elseif action.type == "upgrade" then
-            if action.cost > 0 then
-                 waitForCash(action.cost) 
-            end
+            waitForCash(action.cost) 
             
             local upgradeArgs = {
                 action.towerId, 
@@ -387,7 +385,7 @@ while true do
         elseif action.type == "ability" then
             local abilityArgs = {
                 action.towerId,
-                1 
+                1 -- Assume ability slot 1
             }
             safeInvoke("TowerUseAbilityRequest", abilityArgs)
         end
