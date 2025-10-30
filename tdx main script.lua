@@ -10,7 +10,7 @@ local SOLO_CHECK_TIME = 10 -- Time to wait before checking player count
 local APCs = workspace:FindFirstChild("APCs") 
 
 -----------------------------------------------------------
--- Utility Functions
+-- Utility Functions (Keeping the robust 3-second wait)
 -----------------------------------------------------------
 
 function getCash()
@@ -19,7 +19,7 @@ function getCash()
     return cashValue and cashValue.Value or 0
 end
 
--- Increased wait time to 3 seconds for cash stability 
+-- Using 3 seconds wait time for cash stability 
 function waitForCash(minAmount)
     local cash = getCash()
     while cash < minAmount do
@@ -57,7 +57,7 @@ function safeFire(remoteName, args)
         end
     end)
     task.wait(0.5)
-end
+}
 
 function safeInvoke(remoteName, args)
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -76,138 +76,170 @@ function generatePlaceToken()
 end
 
 -----------------------------------------------------------
--- Tower Placement and Upgrade Sequence Data (STRICT BLOCKS)
+-- TOWER SEQUENCE (Shotgunner & Cryo Blaster)
 -----------------------------------------------------------
 
 local placementAndUpgradeSequence = {
-    -- ID 1 & 2: Initial Shotgunners (4,2)
-    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(11.974782943725586, 59.612266540527344, -215.88894653320312) },
-    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(4.968108177185059, 59.611785888671875, -216.96536254882812) }, 
-    
-    -- ID 1 (4,2)
-    { type = "upgrade", cost = 200, towerId = 1, path = 1 }, 
-    { type = "upgrade", cost = 325, towerId = 1, path = 1 }, 
-    { type = "upgrade", cost = 100, towerId = 1, path = 2 }, 
-    { type = "upgrade", cost = 375, towerId = 1, path = 2 }, 
-    { type = "upgrade", cost = 1950, towerId = 1, path = 1 }, 
-    { type = "upgrade", cost = 2400, towerId = 1, path = 1 }, 
+    -- 1. Initial Shotgunners (ID 1 & 2) - Upgraded to 4,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(4.939697742462158, 59.611793518066406, -216.55397033691406) }, -- ID 1
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(11.798023223876953, 59.610450744628906, -216.46444702148438) },  -- ID 2
 
-    -- ID 2 (4,2)
-    { type = "upgrade", cost = 200, towerId = 2, path = 1 }, 
-    { type = "upgrade", cost = 325, towerId = 2, path = 1 }, 
+    -- ID 2: P2 L1, P2 L2, P1 L1, P1 L2
     { type = "upgrade", cost = 100, towerId = 2, path = 2 }, 
     { type = "upgrade", cost = 375, towerId = 2, path = 2 }, 
+    { type = "upgrade", cost = 200, towerId = 2, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 2, path = 1 }, 
+
+    -- ID 1: P2 L1, P2 L2, P1 L1, P1 L2
+    { type = "upgrade", cost = 100, towerId = 1, path = 2 }, 
+    { type = "upgrade", cost = 375, towerId = 1, path = 2 }, 
+    { type = "upgrade", cost = 200, towerId = 1, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 1, path = 1 }, 
+
+    -- ID 2: P1 L3, P1 L4
     { type = "upgrade", cost = 1950, towerId = 2, path = 1 }, 
     { type = "upgrade", cost = 2400, towerId = 2, path = 1 }, 
 
-    -- ID 3: Shotgunner 3 (4,2)
-    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(12.07552719116211, 59.61406707763672, -219.36883544921875) }, 
-    { type = "upgrade", cost = 100, towerId = 3, path = 2 }, 
-    { type = "upgrade", cost = 375, towerId = 3, path = 2 }, 
+    -- ID 1: P1 L3, P1 L4
+    { type = "upgrade", cost = 1950, towerId = 1, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 1, path = 1 }, 
+
+    -- 2. Shotgunner 3 (ID 3) - Upgraded to 4,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(4.983882904052734, 59.611785888671875, -219.7416534423828) }, -- ID 3
+    
+    -- ID 3: P1 L1, P2 L1, P1 L2, P2 L2, P1 L3, P1 L4
     { type = "upgrade", cost = 200, towerId = 3, path = 1 }, 
+    { type = "upgrade", cost = 100, towerId = 3, path = 2 }, 
     { type = "upgrade", cost = 325, towerId = 3, path = 1 }, 
+    { type = "upgrade", cost = 375, towerId = 3, path = 2 }, 
     { type = "upgrade", cost = 1950, towerId = 3, path = 1 }, 
     { type = "upgrade", cost = 2400, towerId = 3, path = 1 }, 
-
-    -- ID 4: Cryo Blaster (5,2)
-    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(4.887417793273926, 59.6136360168457, -213.9490966796875) }, 
-    { type = "upgrade", cost = 450, towerId = 4, path = 2 }, 
-    { type = "upgrade", cost = 550, towerId = 4, path = 2 }, 
+    
+    -- 3. Cryo Blaster 4 (ID 4) - Upgraded to 5,2 (REVISED BLOCK)
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(11.958147048950195, 59.61408996582031, -219.5897216796875) }, -- ID 4
+    
+    -- ID 4: P1 L1, P2 L1, P1 L2, P2 L2, P1 L3, P1 L4, P1 L5
     { type = "upgrade", cost = 225, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 450, towerId = 4, path = 2 }, -- P2 L1
     { type = "upgrade", cost = 400, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 550, towerId = 4, path = 2 }, -- P2 L2 (Stop here for 5,2)
     { type = "upgrade", cost = 1200, towerId = 4, path = 1 }, 
     { type = "upgrade", cost = 2750, towerId = 4, path = 1 }, 
-    { type = "upgrade", cost = 7500, towerId = 4, path = 1 }, 
+    { type = "upgrade", cost = 7500, towerId = 4, path = 1 }, -- P1 L5 (The 5 in 5,2)
+    
+    -- 4. Final SG Upgrades to 5,2
+    { type = "upgrade", cost = 10000, towerId = 2, path = 1 }, -- SG 2: P1 L5
+    { type = "upgrade", cost = 10000, towerId = 1, path = 1 }, -- SG 1: P1 L5
+    { type = "upgrade", cost = 10000, towerId = 3, path = 1 }, -- SG 3: P1 L5
 
-    -- Sell ID 3 and Final Upgrade ID 1 & 2
-    { type = "sell", cost = 0, towerId = 3 },
-    { type = "upgrade", cost = 10000, towerId = 2, path = 1 }, 
-    { type = "upgrade", cost = 10000, towerId = 1, path = 1 }, 
+    -- 5. Shotgunner 5 (ID 5) - Upgraded to 5,2
+    { type = "place", cost = 325, tower = "Shotgunner", position = vector.create(11.958147048950195, 59.61408996582031, -219.5897216796875) }, -- ID 5
+    
+    -- ID 5: P1 L1, P1 L2, P2 L1, P2 L2, P1 L3, P1 L4, P1 L5
+    { type = "upgrade", cost = 200, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 325, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 100, towerId = 5, path = 2 }, 
+    { type = "upgrade", cost = 375, towerId = 5, path = 2 }, 
+    { type = "upgrade", cost = 1950, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 2400, towerId = 5, path = 1 }, 
+    { type = "upgrade", cost = 10000, towerId = 5, path = 1 }, 
 
-    -- ID 5: EDJ (2,4) - Discount Path 2 completed first
-    { type = "place", cost = 2450, tower = "EDJ", position = vector.create(12.339020729064941, 59.614013671875, -225.45384216308594) }, 
-    { type = "upgrade", cost = 850, towerId = 5, path = 2 }, 
-    { type = "upgrade", cost = 1100, towerId = 5, path = 2 }, 
-    { type = "upgrade", cost = 3250, towerId = 5, path = 2 }, 
-    { type = "upgrade", cost = 7000, towerId = 5, path = 2 }, 
-
-    -- ID 6: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(14.839522361755371, 59.613525390625, -228.8924560546875) }, 
-    { type = "upgrade", cost = 600, towerId = 6, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 6, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 6, path = 2 }, 
+    -- 6. Cryo Blaster 6 (ID 6) - Upgraded to 2,5
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(11.646870613098145, 59.61048126220703, -223.11021423339844) }, -- ID 6
+    
+    -- ID 6: P1 L1, P1 L2, P2 L1, P2 L2, P2 L3, P2 L4, P2 L5
+    { type = "upgrade", cost = 225, towerId = 6, path = 1 }, -- P1 L1
+    { type = "upgrade", cost = 400, towerId = 6, path = 1 }, -- P1 L2 (Stops here for 2,5)
+    { type = "upgrade", cost = 450, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 6, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 6, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 6, path = 2 }, 
 
-    -- ID 7: EDJ (5,2) - Rate of Fire Path 1 completed first
-    { type = "place", cost = 2450, tower = "EDJ", position = vector.create(7.598991394042969, 59.61127471923828, -231.6349334716797) }, 
-    { type = "upgrade", cost = 500, towerId = 7, path = 1 }, -- P1 L1
-    { type = "upgrade", cost = 1500, towerId = 7, path = 1 }, -- P1 L2
-    { type = "upgrade", cost = 4300, towerId = 7, path = 1 }, -- P1 L3
-    { type = "upgrade", cost = 5500, towerId = 7, path = 1 }, -- P1 L4
-    { type = "upgrade", cost = 19500, towerId = 7, path = 1 }, -- P1 L5 (The expensive part!)
+    -- 7. Remaining Cryo Blasters (ID 7 - 14) - Upgraded to 2,5 (The script places and upgrades each one fully before moving to the next ID)
+    -- CB 7
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(12.336172103881836, 59.614013671875, -226.0918731689453) }, -- ID 7
+    { type = "upgrade", cost = 225, towerId = 7, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 7, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 7, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 7, path = 2 }, 
 
-    -- ID 5: EDJ Final Upgrades to 2,5
-    { type = "upgrade", cost = 500, towerId = 5, path = 1 }, 
-    { type = "upgrade", cost = 1500, towerId = 5, path = 1 }, 
-    { type = "upgrade", cost = 4300, towerId = 5, path = 1 }, 
-    { type = "upgrade", cost = 5500, towerId = 5, path = 1 }, 
-    { type = "upgrade", cost = 19500, towerId = 5, path = 1 }, 
-
-    -- ID 8: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(17.892009735107422, 59.6129264831543, -232.20303344726562) }, 
-    { type = "upgrade", cost = 600, towerId = 8, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 8, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 8, path = 2 }, 
+    -- CB 8
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(14.266560554504395, 59.6136360168457, -228.57217407226562) }, -- ID 8
+    { type = "upgrade", cost = 225, towerId = 8, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 8, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 8, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 8, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 8, path = 2 }, 
-
-    -- ID 9: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(9.600579261779785, 59.6124267578125, -235.2817840576172) }, 
-    { type = "upgrade", cost = 600, towerId = 9, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 9, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 9, path = 2 }, 
+    
+    -- CB 9
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(5.0366668701171875, 59.61177444458008, -223.255859375) }, -- ID 9
+    { type = "upgrade", cost = 225, towerId = 9, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 9, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 9, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 9, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 9, path = 2 }, 
-
-    -- ID 10: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(4.72822380065918, 59.61183547973633, -228.603515625) }, 
-    { type = "upgrade", cost = 600, towerId = 10, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 10, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 10, path = 2 }, 
+    
+    -- CB 10
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(4.880904197692871, 59.6118049621582, -226.31199645996094) }, -- ID 10
+    { type = "upgrade", cost = 225, towerId = 10, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 10, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 10, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 10, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 10, path = 2 }, 
-
-    -- ID 11: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(20.218395233154297, 59.61244201660156, -238.4785919189453) }, 
-    { type = "upgrade", cost = 600, towerId = 11, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 11, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 11, path = 2 }, 
+    
+    -- CB 11
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(6.013155460357666, 59.6115837097168, -229.71517944335938) }, -- ID 11
+    { type = "upgrade", cost = 225, towerId = 11, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 11, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 11, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 11, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 11, path = 2 }, 
-
-    -- ID 12: Juggernaut (2,4)
-    { type = "place", cost = 6350, tower = "Juggernaut", position = vector.create(19.86153793334961, 59.612510681152344, -245.67332458496094) }, 
-    { type = "upgrade", cost = 600, towerId = 12, path = 2 }, 
-    { type = "upgrade", cost = 3650, towerId = 12, path = 2 }, 
-    { type = "upgrade", cost = 7500, towerId = 12, path = 2 }, 
+    
+    -- CB 12
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(2.013970375061035, 59.61236572265625, -224.58604431152344) }, -- ID 12
+    { type = "upgrade", cost = 225, towerId = 12, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 12, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 12, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 12, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 12, path = 2 }, 
-
-    -- Juggernauts: Complete Path 1 L1 & L2 for Ability Activation
-    { type = "upgrade", cost = 850, towerId = 6, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 6, path = 1 }, 
-    { type = "upgrade", cost = 850, towerId = 8, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 8, path = 1 }, 
-    { type = "upgrade", cost = 850, towerId = 9, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 9, path = 1 }, 
-    { type = "upgrade", cost = 850, towerId = 10, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 10, path = 1 }, 
-    { type = "upgrade", cost = 850, towerId = 11, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 11, path = 1 }, 
-    { type = "upgrade", cost = 850, towerId = 12, path = 1 }, 
-    { type = "upgrade", cost = 1600, towerId = 12, path = 1 }, 
-
-    -- Final Action: EDJ 5 Ability
-    { type = "ability", cost = 0, towerId = 5 } 
+    
+    -- CB 13
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(2.833608627319336, 59.612205505371094, -229.4172821044922) }, -- ID 13
+    { type = "upgrade", cost = 225, towerId = 13, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 13, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 13, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 13, path = 2 }, 
+    
+    -- CB 14
+    { type = "place", cost = 225, tower = "Cryo Blaster", position = vector.create(8.245016098022461, 59.611148834228516, -232.0863800048828) }, -- ID 14
+    { type = "upgrade", cost = 225, towerId = 14, path = 1 }, 
+    { type = "upgrade", cost = 400, towerId = 14, path = 1 },
+    { type = "upgrade", cost = 450, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 550, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 2100, towerId = 14, path = 2 }, 
+    { type = "upgrade = 5675, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 14000, towerId = 14, path = 2 }, 
 }
 
 -----------------------------------------------------------
--- MAIN FARMING LOOP
+-- MAIN FARMING LOOP (No changes needed here)
 -----------------------------------------------------------
 
 while true do
@@ -334,7 +366,9 @@ while true do
             local success, result = safeInvoke("PlaceTower", placeArgs)
 
         elseif action.type == "upgrade" then
-            waitForCash(action.cost) 
+            if action.cost > 0 then
+                 waitForCash(action.cost) 
+            end
             
             local upgradeArgs = {
                 action.towerId, 
@@ -353,7 +387,7 @@ while true do
         elseif action.type == "ability" then
             local abilityArgs = {
                 action.towerId,
-                1 -- Assume ability slot 1
+                1 
             }
             safeInvoke("TowerUseAbilityRequest", abilityArgs)
         end
