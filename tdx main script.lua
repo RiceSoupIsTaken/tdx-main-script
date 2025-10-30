@@ -1,11 +1,11 @@
 -- Configuration
 local TARGET_MAP = "Blade Works" 
-local SHORT_DELAY = 5
-local LONG_DELAY = 30
+local SHORT_DELAY = 2
+local LONG_DELAY = 15
 local DIFFICULTY_VOTE = "Easy"
 local TELEPORT_GAME_ID = 9503261072 -- TDX Lobby ID
-local MATCH_DURATION_WAIT = 570 -- 9 minutes 30 seconds
-local SOLO_CHECK_TIME = 10 -- Time to wait before checking player count
+local MATCH_DURATION_WAIT = 510 -- 9 minutes 30 seconds
+local SOLO_CHECK_TIME = 1 -- Time to wait before checking player count
 
 local APCs = workspace:FindFirstChild("APCs") 
 
