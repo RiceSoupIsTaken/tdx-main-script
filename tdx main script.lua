@@ -7,7 +7,7 @@ local TELEPORT_GAME_ID = 9503261072 -- TDX Lobby ID
 local MATCH_DURATION_WAIT = 570 -- 9 minutes 30 seconds
 local SOLO_CHECK_TIME = 10 -- Time to wait before checking player count
 
-local APCs = workspace:FindFirstChild("APCs") 
+local APCs = workspace:WaitForChild("APCs") -- FIX: Ensure APCs exists before continuing
 
 -----------------------------------------------------------
 -- Utility Functions (Keeping the robust 3-second wait)
@@ -57,7 +57,7 @@ function safeFire(remoteName, args)
         end
     end)
     task.wait(0.5)
-}
+end
 
 function safeInvoke(remoteName, args)
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -234,16 +234,16 @@ local placementAndUpgradeSequence = {
     { type = "upgrade", cost = 450, towerId = 14, path = 2 }, 
     { type = "upgrade", cost = 550, towerId = 14, path = 2 }, 
     { type = "upgrade", cost = 2100, towerId = 14, path = 2 }, 
-    { type = "upgrade = 5675, towerId = 14, path = 2 }, 
+    { type = "upgrade", cost = 5675, towerId = 14, path = 2 }, 
     { type = "upgrade", cost = 14000, towerId = 14, path = 2 }, 
 }
 
 -----------------------------------------------------------
--- MAIN FARMING LOOP (No changes needed here)
+-- MAIN FARMING LOOP 
 -----------------------------------------------------------
 
 while true do
-    local APCs = workspace:FindFirstChild("APCs") 
+    -- APCs is now guaranteed to exist due to WaitForChild at the top
     local timerStartTime = 0
 
     if APCs then
